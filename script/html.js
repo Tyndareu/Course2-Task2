@@ -13,97 +13,42 @@ const jsonStates = await states.json()
 
 let jsonTabla = jsonSenators
 
-let parties = {
-    D: 'democrata',
-    R: 'Republican',
-    ID: 'Independent'
-}
 
 
 
-parties.R = document.getElementById('R');
-parties.D = document.getElementById('D');
-parties.ID = document.getElementById('I');
+let checkboxes = Array.from(document.getElementsByClassName("party"))
+let checkBox = []
+checkboxes.forEach(element => {
+    element.addEventListener('change', function (event) {
+        if (element.checked) {
+            checkBox.push(element.value)
+        }
+        if (!element.checked) {
+            checkBox = checkBox.filter(x => x != element.value)
+        }
+        checkBox.sort()
+        let key = checkBox.length
+        switch (key) {
+            case 2:
+                let push = []
+                checkBox.forEach(element => {
+                    push.push(Array.from(jsonSenators.filter(x => x.party === element)))
+                });
+                jsonTabla = push[0].concat(push[1])
+                genera_tabla()
+                break;
+            case 1:
+                jsonTabla = jsonSenators.filter(x => x.party === checkBox.toString())
+                genera_tabla()
+                break;
+            default:
+                jsonTabla = jsonSenators
+                genera_tabla()
+                break;
+        }
+    })
+})
 
-
-parties.R.addEventListener('click', function () {
-    if (parties.R.checked) {
-        if (parties.D.checked) {
-            jsonTabla = jsonSenators.filter(x => x.party === "R" || x.party === "D")
-            genera_tabla()
-        }
-        else if (parties.ID.checked) {
-            jsonTabla = jsonSenators.filter(x => x.party === "R" || x.party === "I")
-            genera_tabla()
-        }
-        else if (parties.D.checked && parties.ID.checked) {
-            jsonTabla = jsonSenators
-            genera_tabla()
-        }
-
-        else {
-            jsonTabla = jsonSenators.filter(x => x.party === "R")
-            genera_tabla()
-        }
-    }
-    else {
-        jsonTabla = jsonSenators
-        genera_tabla()
-    }
-});
-
-
-parties.D.addEventListener('click', function () {
-    if (parties.D.checked) {
-        if (parties.R.checked) {
-            jsonTabla = jsonSenators.filter(x => x.party === "R" || x.party === "D")
-            genera_tabla()
-        }
-        else if (parties.ID.checked) {
-            jsonTabla = jsonSenators.filter(x => x.party === "D" || x.party === "I")
-            genera_tabla()
-        }
-        else if (parties.R.checked && parties.ID.checked) {
-            jsonTabla = jsonSenators
-            genera_tabla()
-        }
-
-        else {
-            jsonTabla = jsonSenators.filter(x => x.party === "D")
-            genera_tabla()
-        }
-    }
-    else {
-        jsonTabla = jsonSenators
-        genera_tabla()
-    }
-});
-
-parties.ID.addEventListener('click', function () {
-    if (parties.ID.checked) {
-        if (parties.R.checked) {
-            jsonTabla = jsonSenators.filter(x => x.party === "R" || x.party === "I")
-            genera_tabla()
-        }
-        else if (parties.D.checked) {
-            jsonTabla = jsonSenators.filter(x => x.party === "D" || x.party === "I")
-            genera_tabla()
-        }
-        else if (parties.R.checked && parties.D.checked) {
-            jsonTabla = jsonSenators
-            genera_tabla()
-        }
-
-        else {
-            jsonTabla = jsonSenators.filter(x => x.party === "I")
-            genera_tabla()
-        }
-    }
-    else {
-        jsonTabla = jsonSenators
-        genera_tabla()
-    }
-});
 
 //DESPLEGABLE
 
@@ -131,8 +76,10 @@ Array.from(document.querySelectorAll('.dropdown-btn')).forEach((btn) => {
             contador++
             if (contador % 2 === 0) {
                 genera_desplegable()
-            } else { borra_deplegable() 
-            contador = 1}
+            } else {
+                borra_deplegable()
+                contador = 1
+            }
         })
     }
 });
@@ -202,16 +149,19 @@ genera_tabla()
 
 function genera_desplegable() {
     borra_deplegable()
-    let stados;
+    let states;
     for (const prop in jsonStates) {
-        let li = document.createElement("li");
-        li.className = "optionDesplegableStados"
+        let button = document.createElement("input");
+        button.type = 'button';
+        //button.id = 'submit';
+        button.value = jsonStates[prop];
+        button.className = prop
+
         const p = document.createElement("a");
-        stados = jsonStates[prop]
+        states = jsonStates[prop]
 
-        p.appendChild(document.createTextNode(stados));
-        document.querySelector("#dropdown").appendChild(li).appendChild(p);
-
+        p.appendChild(document.createTextNode(states));
+        document.querySelector("#dropdown").appendChild(button).appendChild(p);
     }
 }
 

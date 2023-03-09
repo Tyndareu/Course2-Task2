@@ -1,8 +1,8 @@
-var triangle = {a: 1, b: 2, c: 3};
-
-
-
-for (const prop in triangle) {
-    console.log(triangle[prop]);
-
-}
+checkboxes.forEach(function(checkbox) {
+    checkbox.addEventListener('change', function() {
+      let  enabledSettings = Array.from(checkboxes) // Convert checkboxes to an array to use filter and map.
+                              .filter(i => i.checked) // Use Array.filter to remove unchecked checkboxes.
+                              .map(i => i.value) // Use Array.map to extract only the checkbox values from the array of objects.
+      return makeFilterArray(members);
+      });
+    });
