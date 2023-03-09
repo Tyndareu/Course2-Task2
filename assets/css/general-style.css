@@ -1,15 +1,37 @@
 body {
+  padding: 0px;
   width: 90%;
   margin: auto;
-  background-color: grey;
+  /*background-color: grey;*/
 }
 
+/*NAV*/
+
+.menu ul{
+  display: flex;
+  list-style: none;
+}
+
+.menu ul li{
+  padding: 10px;
+  background-color: rgb(207, 168, 243)
+  
+}
 
 /* TABLE */
-table{
-    
-    margin: 30px;
+
+.divTabla{
+  height: 430px;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  margin-bottom: 40px;
+  max-width: 1020px;
+  border: solid 10px rgb(179, 177, 177);
+  border-radius: 10px;
 }
+
+
+
 .table-header {
     background-color: #95a5a6;
     font-size: 14px;
@@ -34,4 +56,86 @@ td{
 }
 
 
+#dropdown{
+  display: flex;
+  flex-wrap: wrap;
+  padding: 5px;
+  color: white;
+  max-height: 600px;
+  background-color: white;
+  width: 500px;
+}
+
+.dropdown li{
+  border: 2px solid black;
+  margin: 4px;
+  padding: 2px;
+  border-radius: 3px;
+  background-color: rgb(44, 167, 201);
+}
+
+
+/*CODIGO DEMO*/
+
+nav >  ul > li {
+  background-color: #3498DB;
+  display: inline-block;
+}
+nav > ul > li:hover {
+  background-color: #270bc7;
+}
+
+
+
+
+.dropdown-btn {
+  color: white;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown-btn::after {
+  content: "\25BC";
+}
+
+.dropdown:hover, .dropbtn:focus {
+  background-color: #1d07e9;
+}
+
+.dropdown {
+  display: inline-block;
+
+}
+.dropdown ul{
+  list-style: none;
+  width: auto;
+
+}
+.dropdown-items {
+  position: absolute;
+  background-color: #f1f1f1;
+}
+
+.dropdown-items li a {
+  display: block;
+  color: black;
+  width: 100%;
+  text-decoration: none;
+}
+
+.dropdown.show .dropdown-items{
+  display: block;
+}
+
+.dropdown.show .dropdown-btn:after {
+  content: "\25B2";
+}
+
+
+.dropdown li a:hover {
+  background-color: rgb(116, 221, 247);
+  text-decoration: none;
+  font:  black;
+}
 

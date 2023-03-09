@@ -59,20 +59,33 @@
         uniformed officers, as well as trial of federal officials impeached by
         the House.
       </p>
-      <nav>
-        <a href="http://">Index</a>
+      <nav class="menu">
+        <ul>
+          <li>
+            <a href="./index.html">Index</a>
+          </li>
+        </ul>
       </nav>
     </header>
-
-    <form>
-      Filter by Party:      
-      <input id="R" name="Republican" type="checkbox" /> Republican    
-      <input id="D" name="Democrat" type="checkbox" /> Democrat
-      <input id="I" name="Independent" type="checkbox" /> Independent
-    </form>
-
-    <tabla id="tabla"></tabla>
-
+    <div class="filters" style="display: flex">
+      <form>
+        Filter by Party:
+        <input id="R" name="Republican" type="checkbox" /> Republican
+        <input id="D" name="Democrat" type="checkbox" /> Democrat
+        <input id="I" name="Independent" type="checkbox" /> Independent
+      </form>
+      <nav>
+        <ul>
+          <li class="dropdown">
+            <button class="button dropdown-btn show">Attendance</button>
+            <ul id="dropdown" class="dropdown-items"></ul>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <div class="divTabla">
+      <tabla id="tabla"></tabla>
+    </div>
     <footer style>
       <div style="display: inline-block">
         <h2>About Us</h2>
