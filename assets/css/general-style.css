@@ -30,7 +30,7 @@ body {
   text-decoration: none;
 }
 
-/* TABLE */
+/* TABLE 
 
 .divTabla {
   height: 430px;
@@ -63,27 +63,27 @@ td {
 .table-row {
   box-shadow: 5px 2px 9px 0px rgba(0, 0, 0, 0.1);
 }
+
+Table end*/
+
 /*CODIGO DESPLEGABLE*/
 
 #dropdownbtn {
   margin-left: 10px;
   margin-bottom: 5px;
-  background-color:#60c5e7;
-  border: solid 1px #60c5e7;
-  color: black;
+
 }
 
 #dropdown button {
 display: block;
-background-color:#60c5e7;
+border: solid 1px grey;
+border-radius: 5px;
 
-border: solid 1px #60c5e7;
-border-radius: 10px;
 margin: 5px;  
   }
 #dropdown button:hover{
   background-color: transparent;
   border: solid 1px #60c5e7;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 

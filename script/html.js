@@ -121,6 +121,7 @@ function generate_table() {
 
     // Crea un elemento <table> y un elemento <tbody>
     const tabla = document.createElement("table");
+    tabla.className = "table table-striped table-bordered"
     const tblBody = document.createElement("tbody");
 
     // Header
