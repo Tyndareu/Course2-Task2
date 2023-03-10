@@ -12,6 +12,8 @@ const jsonStates = await states.json();
 //checkbox
 
 let jsonTabla = jsonSenators;
+let jsonTablaState = []
+let jsonTablaStateFilter = ['']
 
 let checkboxes = Array.from(document.getElementsByClassName("party"));
 let checkBox = [];
@@ -49,47 +51,57 @@ checkboxes.forEach((element) => {
 
 //DESPLEGABLE
 
-// Close all dropdown lists if the user clicks outside of it
+//DESPLEGABLE
 
-let counter = 1;
-window.addEventListener("click", (event) => {
-    if (!event.target.matches(".dropdown-btn")) {
-        delete_dropdown();
-        Array.from(document.querySelectorAll(".dropdown")).forEach((elt) => {
-            elt.classList.remove("show");
-            counter = 1;
-        });
+document.getElementById('dropdownbtn').onclick = function () {
+    //Delete DropDown
+    const dropdownbtn = document.querySelector("#dropdown");
+    dropdownbtn.innerHTML = " ";
+
+    // button all states
+    let buttonAllStates = document.createElement("button");
+    buttonAllStates.value = 'all';
+    buttonAllStates.className = "dropdownoption";
+    let aAllStates = document.createElement("a");
+    aAllStates.appendChild(document.createTextNode('All States'));
+    document.querySelector("#dropdown").appendChild(buttonAllStates).appendChild(aAllStates);
+    // button all states end
+
+    let states;
+    for (const prop in jsonStates) {
+        let button = document.createElement("button");
+        button.value = prop;
+        button.className = "dropdownoption";
+
+        let a = document.createElement("a");
+        states = jsonStates[prop];
+
+        a.appendChild(document.createTextNode(states));
+        document.querySelector("#dropdown").appendChild(button).appendChild(a);
     }
-});
+    dropDownOptionFunction()
+}
 
-// set all dropdown buttons to open their associated dropdown list on click
-Array.from(document.querySelectorAll(".dropdown-btn")).forEach((btn) => {
-    const dropdown = btn.closest(".dropdown");
-
-    if (dropdown) {
-        btn.addEventListener("click", (evt) => {
-            evt.preventDefault();
-            dropdown.classList.toggle("show");
-            counter++;
-            if (counter % 2 === 0) {
-                generate_dropdown();
-            } else {
-                delete_dropdown();
-                counter = 1;
-            }
+//DESPLEGABLE OPTION
+function dropDownOptionFunction() {
+    const dropdownoption = document.querySelectorAll(".dropdownoption");
+    dropdownoption.forEach(button => {
+        button.addEventListener("click", function (event) {
+            jsonTablaStateFilter = button.value
+            generate_table()
         });
-    }
-});
+    })
+}
 
 //TABLA
-let cabeceraItems = [
+const cabeceraItems = [
     "Name",
     "Party",
     "State",
     "Seniority",
     "Votes with Party"
 ];
-let senatorItems = [
+const senatorItems = [
     "first_name",
     "party",
     "state",
@@ -101,6 +113,12 @@ function generate_table() {
     const deleteTable = document.querySelector("#tabla");
     deleteTable.innerHTML = " ";
 
+    if (jsonTablaStateFilter != '' && jsonTablaStateFilter != 'all') {
+        jsonTablaState = jsonTabla.filter((x) => x.state === jsonTablaStateFilter)
+    }
+    else { jsonTablaState = jsonTabla }
+
+
     // Crea un elemento <table> y un elemento <tbody>
     const tabla = document.createElement("table");
     const tblBody = document.createElement("tbody");
@@ -109,7 +127,7 @@ function generate_table() {
     const rowHeader = document.createElement("tr");
     rowHeader.className = "table-header";
 
-    senatorItems.forEach((element) => {
+    cabeceraItems.forEach((element) => {
         const cell = document.createElement("td");
         const cellText = document.createTextNode(element);
 
@@ -121,7 +139,7 @@ function generate_table() {
     // Header End
 
     // Create cells
-    jsonTabla.forEach((element) => {
+    jsonTablaState.forEach((element) => {
         // Crea las rows de la tabla
         const row = document.createElement("tr");
         row.className = "table-row";
@@ -145,27 +163,3 @@ function generate_table() {
 
 generate_table();
 
-//DESPLEGABLE
-
-function generate_dropdown() {
-    delete_dropdown();
-    let states;
-    for (const prop in jsonStates) {
-        let button = document.createElement("input");
-        button.type = "button";
-        //button.id = 'submit'
-        button.value = jsonStates[prop];
-        button.className = prop;
-
-        let a = document.createElement("a");
-        states = jsonStates[prop];
-
-        a.appendChild(document.createTextNode(states));
-        document.querySelector("#dropdown").appendChild(button).appendChild(a);
-    }
-}
-
-function delete_dropdown() {
-    const borrarDesplegable = document.querySelector("#dropdown");
-    borrarDesplegable.innerHTML = " ";
-}

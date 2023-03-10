@@ -38,7 +38,7 @@ body {
   scroll-behavior: smooth;
   margin-bottom: 40px;
   max-width: 1020px;
-  border: solid 10px rgb(179, 177, 177);
+  border: solid 4px #60c5e7;
   border-radius: 10px;
 }
 
@@ -65,68 +65,25 @@ td {
 }
 /*CODIGO DESPLEGABLE*/
 
-
-#dropdown {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 5px;
-  color: white;
-  max-height: 600px;
-  background-color: white;
-  width: 500px;
-}
-
-
-#dropdown input{
+#dropdownbtn {
+  margin-left: 10px;
+  margin-bottom: 5px;
   background-color:#60c5e7;
-  padding: 2px;
-  margin: 3px;
   border: solid 1px #60c5e7;
-  border-radius: 10px;
-}
-
-#dropdown input:hover{
-  background-color:transparent;
-  border: solid 1px #60c5e7;
-  border-radius: 10px;
-}
-
-.dropdown {
-  background-color: #60c5e7;
-  display: inline-block;
-  border-radius: 8px;
-  border: solid 1px #60c5e7;
-}
-
-.dropdown:hover {
-  background-color: transparent;
-  border-radius: 8px;
-  border: solid 1px #60c5e7;
-}
-.dropdown button:hover,
-dropdown-btn:hover
-  {
   color: black;
 }
 
-.dropdown-btn {
+#dropdown button {
+display: block;
+background-color:#60c5e7;
+
+border: solid 1px #60c5e7;
+border-radius: 10px;
+margin: 5px;  
+  }
+#dropdown button:hover{
   background-color: transparent;
-  border: none;
-  cursor: pointer;
+  border: solid 1px #60c5e7;
+  border-radius: 10px;
 }
 
-.dropdown {
-  display: inline-block;
-}
-
-.dropdown-items {
-  position: absolute;
-  margin-top: 5px;
-}
-
-.dropdown-btn::after {
-  content: "\25BC";
-}
-.dropdown.show .dropdown-btn:after {
-  content: "\25B2";
-}
