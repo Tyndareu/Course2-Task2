@@ -1,139 +1,141 @@
 //SENATORS JSON
-const senators = await fetch('./house.json')
-const jsonSenators = Array.from(await senators.json())
+const senators = await fetch("./house.json");
+const jsonSenators = Array.from(await senators.json());
+
 
 //STATES JSON
-
-//SENATORS JSON
-const states = await fetch('https://gist.githubusercontent.com/mshafrir/2646763/raw/8b0dbb93521f5d6889502305335104218454c2bf/states_hash.json')
-const jsonStates = await states.json()
-
+const states = await fetch(
+    "https://gist.githubusercontent.com/mshafrir/2646763/raw/8b0dbb93521f5d6889502305335104218454c2bf/states_hash.json"
+);
+const jsonStates = await states.json();
 
 //checkbox
 
-let jsonTabla = jsonSenators
+let jsonTabla = jsonSenators;
 
-
-
-
-let checkboxes = Array.from(document.getElementsByClassName("party"))
-let checkBox = []
-checkboxes.forEach(element => {
-    element.addEventListener('change', function (event) {
+let checkboxes = Array.from(document.getElementsByClassName("party"));
+let checkBox = [];
+checkboxes.forEach((element) => {
+    element.addEventListener("change", function (event) {
         if (element.checked) {
-            checkBox.push(element.value)
+            checkBox.push(element.value);
         }
         if (!element.checked) {
-            checkBox = checkBox.filter(x => x != element.value)
+            checkBox = checkBox.filter((x) => x != element.value);
         }
-        checkBox.sort()
-        let key = checkBox.length
+        let key = checkBox.length;
         switch (key) {
             case 2:
-                let push = []
-                checkBox.forEach(element => {
-                    push.push(Array.from(jsonSenators.filter(x => x.party === element)))
+                let push = [];
+                checkBox.forEach((element) => {
+                    push.push(
+                        Array.from(jsonSenators.filter((x) => x.party === element))
+                    );
                 });
-                jsonTabla = push[0].concat(push[1])
-                genera_tabla()
+                jsonTabla = push[1].concat(push[0]);
+                generate_table();
                 break;
             case 1:
-                jsonTabla = jsonSenators.filter(x => x.party === checkBox.toString())
-                genera_tabla()
+                jsonTabla = jsonSenators.filter((x) => x.party === checkBox.toString());
+                generate_table();
                 break;
             default:
-                jsonTabla = jsonSenators
-                genera_tabla()
+                jsonTabla = jsonSenators;
+                generate_table();
                 break;
         }
-    })
-})
-
+    });
+});
 
 //DESPLEGABLE
 
 // Close all dropdown lists if the user clicks outside of it
 
-let contador = 1
-window.addEventListener('click', (event) => {
-    if (!event.target.matches('.dropdown-btn')) {
-        borra_deplegable()
-        Array.from(document.querySelectorAll('.dropdown')).forEach((elt) => {
-            elt.classList.remove('show');
-            contador = 1
-        })
+let counter = 1;
+window.addEventListener("click", (event) => {
+    if (!event.target.matches(".dropdown-btn")) {
+        delete_dropdown();
+        Array.from(document.querySelectorAll(".dropdown")).forEach((elt) => {
+            elt.classList.remove("show");
+            counter = 1;
+        });
     }
 });
 
 // set all dropdown buttons to open their associated dropdown list on click
-Array.from(document.querySelectorAll('.dropdown-btn')).forEach((btn) => {
-    const dropdown = btn.closest('.dropdown');
+Array.from(document.querySelectorAll(".dropdown-btn")).forEach((btn) => {
+    const dropdown = btn.closest(".dropdown");
 
     if (dropdown) {
-        btn.addEventListener('click', (evt) => {
-            evt.preventDefault()
-            dropdown.classList.toggle('show')
-            contador++
-            if (contador % 2 === 0) {
-                genera_desplegable()
+        btn.addEventListener("click", (evt) => {
+            evt.preventDefault();
+            dropdown.classList.toggle("show");
+            counter++;
+            if (counter % 2 === 0) {
+                generate_dropdown();
             } else {
-                borra_deplegable()
-                contador = 1
+                delete_dropdown();
+                counter = 1;
             }
-        })
+        });
     }
 });
 
-
 //TABLA
-let cabeceraItems = ["Name", "Party", "State", "Seniority", "Votes with Party"]
-let senatorItems = ["first_name", "party", "state", "seniority", "votes_with_party_pct"]
+let cabeceraItems = [
+    "Name",
+    "Party",
+    "State",
+    "Seniority",
+    "Votes with Party"
+];
+let senatorItems = [
+    "first_name",
+    "party",
+    "state",
+    "seniority",
+    "votes_with_party_pct",
+];
 
-
-function genera_tabla() {
-
-    const borrarTabla = document.querySelector("#tabla")
-    borrarTabla.innerHTML = " "
+function generate_table() {
+    const deleteTable = document.querySelector("#tabla");
+    deleteTable.innerHTML = " ";
 
     // Crea un elemento <table> y un elemento <tbody>
     const tabla = document.createElement("table");
     const tblBody = document.createElement("tbody");
 
-    // Cabecera
-    const cabeceraHilera = document.createElement("tr");
-    cabeceraHilera.className = "table-header"
+    // Header
+    const rowHeader = document.createElement("tr");
+    rowHeader.className = "table-header";
 
-    for (let j = 0; j < senatorItems.length; j++) {
+    senatorItems.forEach((element) => {
+        const cell = document.createElement("td");
+        const cellText = document.createTextNode(element);
 
-        const celda = document.createElement("td");
-        const textoCelda = document.createTextNode(cabeceraItems[j])
+        cell.appendChild(cellText);
+        rowHeader.appendChild(cell);
+        // agrega la row al final de la tabla (al final del elemento tblbody)
+        tblBody.appendChild(rowHeader);
+    });
+    // Header End
 
-        celda.appendChild(textoCelda);
-        cabeceraHilera.appendChild(celda);
-        // agrega la hilera al final de la tabla (al final del elemento tblbody)
-        tblBody.appendChild(cabeceraHilera);
-    }
-    // Cabecera FIN
+    // Create cells
+    jsonTabla.forEach((element) => {
+        // Crea las rows de la tabla
+        const row = document.createElement("tr");
+        row.className = "table-row";
 
-    // Crea las celdas
-    for (let i = 0; i < jsonTabla.length; i++) {
-        // Crea las hileras de la tabla
-        const hilera = document.createElement("tr");
-        hilera.className = "table-row"
+        senatorItems.forEach((element2) => {
+            const cell = document.createElement("td");
+            const cellText = document.createTextNode(element[element2]);
+            cell.appendChild(cellText);
+            row.appendChild(cell);
+        });
 
-
-        for (let j = 0; j < senatorItems.length; j++) {
-
-            const celda = document.createElement("td");
-            const textoCelda = document.createTextNode(jsonTabla[i][senatorItems[j]])
-
-            celda.appendChild(textoCelda);
-            hilera.appendChild(celda);
-        }
-
-        // agrega la hilera al final de la tabla (al final del elemento tblbody)
-        tblBody.appendChild(hilera);
-    }
+        // agrega la row al final de la tabla (al final del elemento tblbody)
+        tblBody.appendChild(row);
+    });
 
     // posiciona el <tbody> debajo del elemento <table>
     tabla.appendChild(tblBody);
@@ -141,31 +143,29 @@ function genera_tabla() {
     document.querySelector("#tabla").appendChild(tabla);
 }
 
-genera_tabla()
-
+generate_table();
 
 //DESPLEGABLE
 
-
-function genera_desplegable() {
-    borra_deplegable()
+function generate_dropdown() {
+    delete_dropdown();
     let states;
     for (const prop in jsonStates) {
         let button = document.createElement("input");
-        button.type = 'button';
-        //button.id = 'submit';
+        button.type = "button";
+        //button.id = 'submit'
         button.value = jsonStates[prop];
-        button.className = prop
+        button.className = prop;
 
-        const p = document.createElement("a");
-        states = jsonStates[prop]
+        let a = document.createElement("a");
+        states = jsonStates[prop];
 
-        p.appendChild(document.createTextNode(states));
-        document.querySelector("#dropdown").appendChild(button).appendChild(p);
+        a.appendChild(document.createTextNode(states));
+        document.querySelector("#dropdown").appendChild(button).appendChild(a);
     }
 }
 
-function borra_deplegable() {
-    const borrarDesplegable = document.querySelector("#dropdown")
-    borrarDesplegable.innerHTML = " "
+function delete_dropdown() {
+    const borrarDesplegable = document.querySelector("#dropdown");
+    borrarDesplegable.innerHTML = " ";
 }
